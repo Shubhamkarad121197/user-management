@@ -1,0 +1,100 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f4f6f8;
+}
+
+/* Page container */
+.app {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* ---------- FORM ---------- */
+form {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
+}
+
+.formControl {
+  margin-bottom: 15px;
+}
+
+.formControl label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.formControl input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.formControl input:focus {
+  border-color: #3498db;
+}
+
+/* Submit button */
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #3498db;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2c80b4;
+}
+
+/* ---------- USERS GRID ---------- */
+.users {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* ---------- USER CARD ---------- */
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  width: 300px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 2vh;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #2c3e50;
+}
+
+.card p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #555;
+}
