@@ -71,12 +71,13 @@ button:hover {
   gap: 20px;
 }
 
+
 /* ---------- USER CARD ---------- */
 .card {
   background: #ffffff;
   border-radius: 12px;
   padding: 16px;
-  width: 300px;
+  width: 250px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   margin-bottom: 2vh;

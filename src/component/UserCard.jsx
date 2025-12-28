@@ -1,16 +1,18 @@
-const UserCard = ({ data, onDelete }) => {
-  const { _id, firstName, lastName, email, city } = data;
-
+function UserCard({ data, onDelete, onEdit }) {
   return (
     <div className="card">
-      <h4>{firstName} {lastName}</h4>
-      <p>{email}</p>
-      <p>{city}</p>
-
-      <button onClick={() => onDelete(_id)}>Delete</button>
+      <p>
+        <b>{data.firstName} {data.lastName}</b>
+      </p>
+      <p>{data.email}</p>
+      <p>{data.city}</p>
+      <div style={{display:'flex',gap:'2em'}}>
+        <button onClick={() => onEdit(data)}>Edit</button>
+        <button onClick={() => onDelete(data._id)}>Delete</button>
+      </div>
+      
     </div>
   );
-};
-
+}
 
 export default UserCard;

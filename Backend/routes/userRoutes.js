@@ -46,4 +46,21 @@ routes.delete('/deleteTask/:id',async (req,res)=>{
     }
 })
 
+routes.patch('/updateUser/:id',async(req,res)=>{
+    try{
+        const {id}=req.params;
+        const updatedUser= await userSchema.findByIdAndUpdate(
+            id,req.body,{new:true,runValidators:true}
+        );
+
+        if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json({message:'Updated User Successfully',data:updatedUser})
+
+    }catch(err){
+          res.status(500).json({ message: 'Something went wrong', error: err.message });
+    }
+})
+
 module.exports=routes;

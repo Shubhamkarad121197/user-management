@@ -15,7 +15,9 @@ function App() {
 
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [editingUserId, setEditingUserId] = useState(null);
 
+  /* ---------------- FETCH USERS ---------------- */
   const fetchData = async () => {
     try {
       const res = await axios.get(`${baseURL}/user`);
@@ -29,16 +31,17 @@ function App() {
     fetchData();
   }, []);
 
+  /* ---------------- FORM HANDLING ---------------- */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  /* ---------------- SUBMIT (CREATE / UPDATE) ---------------- */
   const submitUserData = async (e) => {
     e.preventDefault();
 
     const { firstName, email } = formData;
-
     if (!firstName || !email) {
       alert("First Name and Email are required");
       return;
@@ -46,13 +49,19 @@ function App() {
 
     try {
       setLoading(true);
-      await axios.post(`${baseURL}/user`, formData);
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        city: "",
-      });
+
+      if (editingUserId) {
+        // UPDATE
+        await axios.patch(
+          `${baseURL}/updateUser/${editingUserId}`,
+          formData
+        );
+      } else {
+        // CREATE
+        await axios.post(`${baseURL}/user`, formData);
+      }
+
+      resetForm();
       fetchData();
     } catch (error) {
       console.error(
@@ -64,6 +73,7 @@ function App() {
     }
   };
 
+  /* ---------------- DELETE ---------------- */
   const deleteUser = async (id) => {
     try {
       await axios.delete(`${baseURL}/deleteTask/${id}`);
@@ -73,10 +83,33 @@ function App() {
     }
   };
 
+  /* ---------------- EDIT ---------------- */
+  const editUser = (user) => {
+    setEditingUserId(user._id);
+    setFormData({
+      firstName: user.firstName || "",
+      lastName: user.lastName || "",
+      email: user.email || "",
+      city: user.city || "",
+    });
+  };
+
+  /* ---------------- RESET FORM ---------------- */
+  const resetForm = () => {
+    setEditingUserId(null);
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      city: "",
+    });
+  };
+
   return (
     <div className="app">
       <h2>User Management</h2>
 
+      {/* ---------------- FORM ---------------- */}
       <form onSubmit={submitUserData}>
         <div className="formControl">
           <label>First Name</label>
@@ -119,20 +152,34 @@ function App() {
             onChange={handleChange}
           />
         </div>
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Submitting..." : "Submit"}
+        <div style={{display:'flex',gap:'20px'}}>
+           <button type="submit" disabled={loading}>
+          {loading
+            ? "Submitting..."
+            : editingUserId
+            ? "Update User"
+            : "Add User"}
         </button>
+
+        {editingUserId && (
+          <button type="button" onClick={resetForm}>
+            Cancel
+          </button>
+        )}
+        </div>
+       
       </form>
 
-      <div className="user-list">
+      {/* ---------------- USER LIST ---------------- */}
+      <div className="users">
         {userData.length === 0 && <p>No users found</p>}
 
         {userData.map((user) => (
           <UserCard
-            key={user._id || user.email}
+            key={user._id}
             data={user}
             onDelete={deleteUser}
+            onEdit={editUser}
           />
         ))}
       </div>
